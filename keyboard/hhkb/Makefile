@@ -127,7 +127,7 @@ NKRO_ENABLE = yes		# USB Nkey Rollover
 
 #
 # Keymap file
-#
+KEYMAP = henz
 ifdef KEYMAP
     SRC := keymap_$(KEYMAP).c $(SRC)
 else
