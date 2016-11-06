@@ -24,13 +24,17 @@ CONFIG_H = config_vusb.h
 # V-USB debug level: To use ps2_usart.c level must be 0
 # ps2_usart.c requires USART to receive PS/2 signal.
 OPT_DEFS = -DDEBUG_LEVEL=0
+OPT_DEFS += -DBOOTLOADER_SIZE=2048
 
 
 # MCU name, you MUST set this to match the board you are using
 # type "make clean" after changing this, so all files will be rebuilt
-MCU = atmega328p
-# avrdude doesn't know atmega168p
+MCU = atmega32a
 AVRDUDE_MCU = $(MCU)
+# disable UART since atmega32a apparently doesn't have it
+NO_UART = 1
+# this simplifies things for now
+NO_SUSPEND_POWER_DOWN = 1
 
 
 # Processor frequency.

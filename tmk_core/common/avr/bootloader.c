@@ -89,15 +89,19 @@ void bootloader_jump(void) {
 
     // watchdog reset
     reset_key = BOOTLOADER_RESET_KEY;
+    // TODO understand this
     wdt_enable(WDTO_250MS);
     for (;;);
 }
 
+// TODO make this nicer
+#define MCUSR MCUCSR
 
 /* this runs before main() */
 void bootloader_jump_after_watchdog_reset(void) __attribute__ ((used, naked, section (".init3")));
 void bootloader_jump_after_watchdog_reset(void)
 {
+    // TODO do I have to do something about this?
     if ((MCUSR & (1<<WDRF)) && reset_key == BOOTLOADER_RESET_KEY) {
         reset_key = 0;
 

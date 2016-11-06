@@ -46,6 +46,8 @@ __asm__ __volatile__ (  \
 static uint8_t wdt_timeout = 0;
 static void power_down(uint8_t wdto)
 {
+    // TODO restore this stuff for atmega32a
+#if 0
 #ifdef PROTOCOL_LUFA
     if (USB_DeviceState == DEVICE_STATE_Configured) return;
 #endif
@@ -68,6 +70,7 @@ static void power_down(uint8_t wdto)
 
     // Disable watchdog after sleep
     wdt_disable();
+#endif
 }
 
 static void standby(void)

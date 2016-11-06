@@ -14,17 +14,7 @@
 #endif
 
 
-// Ports for V-USB
-// key:     PB0(pull-uped)
-// prev:    PB1
-// row:     PB2-4
-// col:     PC0-2,3
-// power:   PB5(Low:on/Hi-z:off)
 #define KEY_INIT()              do {    \
-    DDRB  |= 0x3E;                      \
-    DDRB  &= ~(1<<0);                   \
-    PORTB |= 1<<0;                      \
-    DDRC  |= 0x0F;                      \
     KEY_UNABLE();                       \
     KEY_PREV_OFF();                     \
 } while (0)

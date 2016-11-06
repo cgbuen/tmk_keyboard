@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /*
  * scan matrix
  */
+#include <avr/io.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <util/delay.h>
@@ -49,7 +50,15 @@ void matrix_init(void)
     debug_keyboard = true;
 #endif
 
-    KEY_INIT();
+    // all outputs for columns high
+    DDRB = 0xFF;
+    PORTB = 0xFF;
+    // all inputs for rows
+    DDRA = 0xFF;
+    DDRC = 0xFF;
+    // all rows are pulled-up
+    PORTA = 0xFF;
+    PORTC = 0xFF;
 
     // initialize matrix state: all keys off
     for (uint8_t i=0; i < MATRIX_ROWS; i++) _matrix0[i] = 0x00;
@@ -58,8 +67,14 @@ void matrix_init(void)
     matrix_prev = _matrix1;
 }
 
+void matrix_set_col_status(uint8_t col) {
+	DDRB = (1 << col);
+	PORTB = ~(1 << col);
+}
+
 uint8_t matrix_scan(void)
 {
+    // TODO: rewrite all this logic
     uint8_t *tmp;
 
     tmp = matrix_prev;
@@ -68,8 +83,10 @@ uint8_t matrix_scan(void)
 
     KEY_POWER_ON();
 
-    for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
-        for (uint8_t col = 0; col < MATRIX_COLS; col++) {
+    for (uint8_t col = 0; col < MATRIX_COLS; col++) {
+        matrix_set_col_status(col);
+        _delay_us(5);
+        for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
             KEY_SELECT(row, col);
             _delay_us(5);
 
@@ -127,7 +144,9 @@ uint8_t matrix_scan(void)
             _delay_us(75);
 #endif
         }
-        if (matrix[row] ^ matrix_prev[row]) matrix_last_modified = timer_read32();
+        //TODO @nocommit fix this
+        //if (matrix[row] ^ matrix_prev[row]) matrix_last_modified = timer_read32();
+        matrix_last_modified = timer_read32();
     }
     return 1;
 }
