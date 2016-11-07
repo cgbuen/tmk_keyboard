@@ -54,11 +54,13 @@ void matrix_init(void)
     DDRB = 0xFF;
     PORTB = 0xFF;
     // all inputs for rows
-    DDRA = 0xFF;
-    DDRC = 0xFF;
+    DDRA = 0x00;
+    DDRC &= ~(0x111111<<2);
+    DDRD &= ~(1<<PIND7);
     // all rows are pulled-up
     PORTA = 0xFF;
-    PORTC = 0xFF;
+    PORTC |= (0b111111<<2);
+    PORTD |= (1<<PIND7);
 
     // initialize matrix state: all keys off
     for (uint8_t i=0; i < MATRIX_ROWS; i++) _matrix0[i] = 0x00;
@@ -72,81 +74,47 @@ void matrix_set_col_status(uint8_t col) {
 	PORTB = ~(1 << col);
 }
 
+uint8_t matrix_get_row_status(uint8_t row) {
+    if (row < 8) {
+        // for rows 0..7, PORTA 0 -> 7
+        return (~PINA) & (1 << row);
+    } else if (row < 14) {
+        // for rows 8..13, PORTC 7 -> 0
+        return (~PINC) & (1 << (15-row));
+    }else if (row == 14) {
+        // for row 14
+        return (~PIND) & (1 << 7);
+    }
+
+    return 0;
+}
+
 uint8_t matrix_scan(void)
 {
-    // TODO: rewrite all this logic
     uint8_t *tmp;
 
     tmp = matrix_prev;
     matrix_prev = matrix;
     matrix = tmp;
 
-    KEY_POWER_ON();
-
     for (uint8_t col = 0; col < MATRIX_COLS; col++) {
         matrix_set_col_status(col);
         _delay_us(5);
+
         for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
-            KEY_SELECT(row, col);
-            _delay_us(5);
+            uint8_t cur = matrix_get_row_status(row);
 
-            // Not sure this is needed. This just emulates HHKB controller's behaviour.
-            if (matrix_prev[row] & (1<<col)) {
-                KEY_PREV_ON();
-            }
-            _delay_us(10);
-
-            // NOTE: KEY_STATE is valid only in 20us after KEY_ENABLE.
-            // If V-USB interrupts in this section we could lose 40us or so
-            // and would read invalid value from KEY_STATE.
-            uint8_t last = TIMER_RAW;
-
-            KEY_ENABLE();
-
-            // Wait for KEY_STATE outputs its value.
-            // 1us was ok on one HHKB, but not worked on another.
-            // no   wait doesn't work on Teensy++ with pro(1us works)
-            // no   wait does    work on tmk PCB(8MHz) with pro2
-            // 1us  wait does    work on both of above
-            // 1us  wait doesn't work on tmk(16MHz)
-            // 5us  wait does    work on tmk(16MHz)
-            // 5us  wait does    work on tmk(16MHz/2)
-            // 5us  wait does    work on tmk(8MHz)
-            // 10us wait does    work on Teensy++ with pro
-            // 10us wait does    work on 328p+iwrap with pro
-            // 10us wait doesn't work on tmk PCB(8MHz) with pro2(very lagged scan)
-            _delay_us(5);
-
-            if (KEY_STATE()) {
-                matrix[row] &= ~(1<<col);
+            if (cur) {
+                matrix[row] &= ~(1 << col);
             } else {
-                matrix[row] |= (1<<col);
+                matrix[row] |= (1 << col);
             }
 
-            // Ignore if this code region execution time elapses more than 20us.
-            // MEMO: 20[us] * (TIMER_RAW_FREQ / 1000000)[count per us]
-            // MEMO: then change above using this rule: a/(b/c) = a*1/(b/c) = a*(c/b)
-            if (TIMER_DIFF_RAW(TIMER_RAW, last) > 20/(1000000/TIMER_RAW_FREQ)) {
-                matrix[row] = matrix_prev[row];
+            uint8_t prev = matrix_prev[row] & (1 << col);
+            if (cur != prev) {
+              matrix_last_modified = timer_read32();
             }
-
-            _delay_us(5);
-            KEY_PREV_OFF();
-            KEY_UNABLE();
-
-            // NOTE: KEY_STATE keep its state in 20us after KEY_ENABLE.
-            // This takes 25us or more to make sure KEY_STATE returns to idle state.
-#ifdef HHKB_JP
-            // Looks like JP needs faster scan due to its twice larger matrix
-            // or it can drop keys in fast key typing
-            _delay_us(30);
-#else
-            _delay_us(75);
-#endif
         }
-        //TODO @nocommit fix this
-        //if (matrix[row] ^ matrix_prev[row]) matrix_last_modified = timer_read32();
-        matrix_last_modified = timer_read32();
     }
     return 1;
 }
@@ -158,8 +126,6 @@ matrix_row_t matrix_get_row(uint8_t row)
 }
 
 void matrix_power_up(void) {
-    KEY_POWER_ON();
 }
 void matrix_power_down(void) {
-    KEY_POWER_OFF();
 }
