@@ -94,8 +94,10 @@ void bootloader_jump(void) {
     for (;;);
 }
 
-// TODO make this nicer
+#ifdef __AVR_ATmega32A__
+// MCUSR is actually called MCUCSR in ATmega32A
 #define MCUSR MCUCSR
+#endif
 
 /* this runs before main() */
 void bootloader_jump_after_watchdog_reset(void) __attribute__ ((used, naked, section (".init3")));

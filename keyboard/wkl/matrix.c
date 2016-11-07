@@ -127,5 +127,10 @@ matrix_row_t matrix_get_row(uint8_t row)
 
 void matrix_power_up(void) {
 }
+
 void matrix_power_down(void) {
 }
+
+// TODO: figure out how to call the bootloader from bootmapper client
+// (probably by adding stuff to usbFunctionWrite, etc in
+// tmk_core/protocol/vusb/vusb.c (see stuff under firmware/ps2avrGB/vusb.c)
