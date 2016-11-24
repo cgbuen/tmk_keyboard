@@ -67,7 +67,8 @@ int main(void)
 #endif
 
 #ifdef CLKPR
-    // only setup the system clock prescaler if the microcontroller supports it
+    // avoid unintentional changes of clock frequency in devices that have a
+    // clock prescaler
     CLKPR = 0x80, CLKPR = 0;
 #endif
 #ifndef NO_UART
