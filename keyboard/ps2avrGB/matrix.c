@@ -46,14 +46,14 @@ void matrix_init(void)
     debug_keyboard = true;
 #endif
 
-    // all outputs for columns high
+    // all outputs for rows high
     DDRB = 0xFF;
     PORTB = 0xFF;
-    // all inputs for rows
+    // all inputs for columns
     DDRA = 0x00;
     DDRC &= ~(0x111111<<2);
     DDRD &= ~(1<<PIND7);
-    // all rows are pulled-up
+    // all columns are pulled-up
     PORTA = 0xFF;
     PORTC |= (0b111111<<2);
     PORTD |= (1<<PIND7);
@@ -65,21 +65,21 @@ void matrix_init(void)
     matrix_prev = _matrix1;
 }
 
-void matrix_set_col_status(uint8_t col) {
-	DDRB = (1 << col);
-	PORTB = ~(1 << col);
+void matrix_set_row_status(uint8_t row) {
+	DDRB = (1 << row);
+	PORTB = ~(1 << row);
 }
 
 inline
-uint8_t matrix_get_row_status(uint8_t row) {
-    if (row < 8) {
-        // for rows 0..7, PORTA 0 -> 7
-        return (~PINA) & (1 << row);
-    } else if (row < 14) {
-        // for rows 8..13, PORTC 7 -> 0
-        return (~PINC) & (1 << (15-row));
-    }else if (row == 14) {
-        // for row 14
+uint8_t matrix_get_col_status(uint8_t col) {
+    if (col < 8) {
+        // for cols 0..7, PORTA 0 -> 7
+        return (~PINA) & (1 << col);
+    } else if (col < 14) {
+        // for cols 8..13, PORTC 7 -> 0
+        return (~PINC) & (1 << (15-col));
+    }else if (col == 14) {
+        // for col 14
         return (~PIND) & (1 << 7);
     }
 
@@ -88,18 +88,18 @@ uint8_t matrix_get_row_status(uint8_t row) {
 
 uint8_t matrix_scan(void)
 {
-    uint8_t *tmp;
+    matrix_row_t *tmp;
 
     tmp = matrix_prev;
     matrix_prev = matrix;
     matrix = tmp;
 
-    for (uint8_t col = 0; col < MATRIX_COLS; col++) {
-        matrix_set_col_status(col);
+    for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
+        matrix_set_row_status(row);
         _delay_us(5);
 
-        for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
-            if (matrix_get_row_status(row)) {
+        for (uint8_t col = 0; col < MATRIX_COLS; col++) {
+            if (matrix_get_col_status(col)) {
                 matrix[row] |= (1 << col);
             } else {
                 matrix[row] &= ~(1 << col);
