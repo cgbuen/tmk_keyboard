@@ -90,14 +90,14 @@ uint8_t matrix_scan(void)
         _delay_us(5);
 
         matrix[row] = (
-          // cols 0..7, PORTA 0 -> 7
-          (~PINA) & 0xFF
+            // cols 0..7, PORTA 0 -> 7
+            (~PINA) & 0xFF
         ) | (
-          // cols 8..13, PORTC 7 -> 0
-          bit_reverse((~PINC) & 0xFF) << 8
+            // cols 8..13, PORTC 7 -> 0
+            bit_reverse((~PINC) & 0xFF) << 8
         ) | (
-          // col 14, PORTD 7
-          ((~PIND) & (1 << PIND7)) << 7
+            // col 14, PORTD 7
+            ((~PIND) & (1 << PIND7)) << 7
         );
     }
 
