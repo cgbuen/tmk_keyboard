@@ -70,6 +70,7 @@ void matrix_set_col_status(uint8_t col) {
 	PORTB = ~(1 << col);
 }
 
+inline
 uint8_t matrix_get_row_status(uint8_t row) {
     if (row < 8) {
         // for rows 0..7, PORTA 0 -> 7
@@ -98,15 +99,14 @@ uint8_t matrix_scan(void)
         _delay_us(5);
 
         for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
-            uint8_t cur = matrix_get_row_status(row);
-
-            if (cur) {
+            if (matrix_get_row_status(row)) {
                 matrix[row] |= (1 << col);
             } else {
                 matrix[row] &= ~(1 << col);
             }
         }
     }
+
     return 1;
 }
 
