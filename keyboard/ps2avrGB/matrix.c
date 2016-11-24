@@ -70,20 +70,11 @@ void matrix_set_row_status(uint8_t row) {
 	PORTB = ~(1 << row);
 }
 
-inline
-uint8_t matrix_get_col_status(uint8_t col) {
-    if (col < 8) {
-        // for cols 0..7, PORTA 0 -> 7
-        return (~PINA) & (1 << col);
-    } else if (col < 14) {
-        // for cols 8..13, PORTC 7 -> 0
-        return (~PINC) & (1 << (15-col));
-    }else if (col == 14) {
-        // for col 14
-        return (~PIND) & (1 << 7);
-    }
-
-    return 0;
+uint8_t bit_reverse(uint8_t x) {
+    x = ((x >> 1) & 0x55) | ((x << 1) & 0xaa);
+    x = ((x >> 2) & 0x33) | ((x << 2) & 0xcc);
+    x = ((x >> 4) & 0x0f) | ((x << 4) & 0xf0);
+    return x;
 }
 
 uint8_t matrix_scan(void)
@@ -98,13 +89,16 @@ uint8_t matrix_scan(void)
         matrix_set_row_status(row);
         _delay_us(5);
 
-        for (uint8_t col = 0; col < MATRIX_COLS; col++) {
-            if (matrix_get_col_status(col)) {
-                matrix[row] |= (1 << col);
-            } else {
-                matrix[row] &= ~(1 << col);
-            }
-        }
+        matrix[row] = (
+          // cols 0..7, PORTA 0 -> 7
+          (~PINA) & 0xFF
+        ) | (
+          // cols 8..13, PORTC 7 -> 0
+          bit_reverse((~PINC) & 0xFF) << 8
+        ) | (
+          // col 14, PORTD 7
+          ((~PIND) & (1 << PIND7)) << 7
+        );
     }
 
     return 1;
