@@ -4,7 +4,7 @@
 
 
 # Target file name (without extension).
-TARGET = hhkb_vusb
+TARGET = ps2avrGB_vusb
 
 # Directory common source filess exist
 TMK_DIR = ../../tmk_core
@@ -14,7 +14,7 @@ TARGET_DIR = .
 
 # keyboard dependent files
 SRC =	\
-	keymap_hhkb.c \
+	keymap_ps2avrGB.c \
 	matrix.c \
 	led.c
 
