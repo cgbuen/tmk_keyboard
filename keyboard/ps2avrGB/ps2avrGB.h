@@ -1,5 +1,5 @@
-#ifndef HHKB_AVR_H
-#define HHKB_AVR_H
+#ifndef PS2AVRGB_AVR_H
+#define PS2AVRGB_AVR_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -10,7 +10,7 @@
 
 // Timer resolution check
 #if (1000000/TIMER_RAW_FREQ > 20)
-#   error "Timer resolution(>20us) is not enough for HHKB matrix scan tweak on V-USB."
+#   error "Timer resolution(>20us) is not enough for ps2avrGB matrix scan tweak on V-USB."
 #endif
 
 #endif

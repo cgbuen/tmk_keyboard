@@ -1,6 +1,3 @@
-/*
- * HHKB Layout
- */
 #include "keymap_common.h"
 
 const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
