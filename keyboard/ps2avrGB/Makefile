@@ -58,7 +58,7 @@ COMMAND_ENABLE = yes    # Commands for debug and configuration
 
 
 #---------------- Programming Options --------------------------
-PROGRAM_CMD = ./kick-to-bootloader.py && sleep 1s && bootloadHID -r $(TARGET).hex
+PROGRAM_CMD = ./program $(TARGET).hex
 
 
 
