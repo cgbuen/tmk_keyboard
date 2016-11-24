@@ -32,10 +32,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "suspend.h"
 
 
-// matrix power saving
-#define MATRIX_POWER_SAVE       10000
-static uint32_t matrix_last_modified = 0;
-
 // matrix state buffer(1:on, 0:off)
 static matrix_row_t *matrix;
 static matrix_row_t *matrix_prev;
@@ -108,11 +104,6 @@ uint8_t matrix_scan(void)
                 matrix[row] |= (1 << col);
             } else {
                 matrix[row] &= ~(1 << col);
-            }
-
-            uint8_t prev = matrix_prev[row] & (1 << col);
-            if (!!cur != !!prev) {
-                matrix_last_modified = timer_read32();
             }
         }
     }
