@@ -105,14 +105,14 @@ uint8_t matrix_scan(void)
             uint8_t cur = matrix_get_row_status(row);
 
             if (cur) {
-                matrix[row] &= ~(1 << col);
-            } else {
                 matrix[row] |= (1 << col);
+            } else {
+                matrix[row] &= ~(1 << col);
             }
 
             uint8_t prev = matrix_prev[row] & (1 << col);
-            if (cur != prev) {
-              matrix_last_modified = timer_read32();
+            if (!!cur != !!prev) {
+                matrix_last_modified = timer_read32();
             }
         }
     }
