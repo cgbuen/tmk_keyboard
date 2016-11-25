@@ -15,24 +15,32 @@ tested so far. But other ps2avrGB boards should work.
 
 First, install the requirements (these are for OSX):
 
-  $ brew cask install crosspack-avr
-  $ brew install --HEAD https://raw.githubusercontent.com/robertgzr/homebrew-tap/master/bootloadhid.rb
+```
+$ brew cask install crosspack-avr $ brew install --HEAD
+https://raw.githubusercontent.com/robertgzr/homebrew-tap/master/bootloadhid.rb
+```
 
 In order to use the `./program` script, which can reboot the board into
 the bootloader, you'll need Python 2 with PyUSB installed:
 
-  $ pip install pyusb
+```
+$ pip install pyusb
+```
 
 Then, with the keyboard plugged in, simply run:
 
-  $ make program
+```
+$ make program
+```
 
 If you prefer, you can just build it and flash the firmware directly with
 `bootloadHID` if you boot the board while holding down `L_Ctrl` to keep it
 in the bootloader:
 
-  $ make
-  $ bootloadHID -r ps2avrGB_vusb.hex
+```
+$ make
+$ bootloadHID -r ps2avrGB_vusb.hex
+```
 
 ## Troubleshooting
 
