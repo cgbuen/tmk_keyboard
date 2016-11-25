@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "debug.h"
 #include "host_driver.h"
 #include "vusb.h"
+#include "bootloader.h"
 
 
 static uint8_t vusb_keyboard_leds = 0;
@@ -165,9 +166,7 @@ static struct {
     uint16_t        len;
     enum {
         NONE,
-#ifdef EEPROM_BOOTLOADER_START
         BOOTLOADER,
-#endif
         SET_LED
     }               kind;
 } last_req;
@@ -198,7 +197,7 @@ usbRequest_t    *rq = (void *)data;
                 debug("SET_LED: ");
                 last_req.kind = SET_LED;
                 last_req.len = rq->wLength.word;
-#ifdef EEPROM_BOOTLOADER_START
+#ifdef BOOTLOADER_SIZE
             } else if(rq->wValue.word == 0x0301) {
                 last_req.kind = BOOTLOADER;
                 last_req.len = rq->wLength.word;
@@ -230,13 +229,11 @@ uchar usbFunctionWrite(uchar *data, uchar len)
             last_req.len = 0;
             return 1;
             break;
-#ifdef EEPROM_BOOTLOADER_START
         case BOOTLOADER:
-            eeprom_write_byte((uint8_t *)EEPROM_BOOTLOADER_START, 0x00);
             usbDeviceDisconnect();
-            wdt_enable(WDTO_15MS);
-            for(;;);
-#endif
+            bootloader_jump();
+            return 1;
+            break;
         case NONE:
         default:
             return -1;
