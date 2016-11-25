@@ -126,7 +126,7 @@ uint32_t timer_elapsed32(uint32_t last)
 #else
 #define TIMER_INTERRUPT_VECTOR TIMER0_COMP_vect
 #endif
-ISR(TIMER_INTERRUPT_VECTOR)
+ISR(TIMER_INTERRUPT_VECTOR, ISR_NOBLOCK)
 {
     timer_count++;
 }
