@@ -15,33 +15,16 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*
- * scan matrix
- */
 #include <avr/io.h>
-#include <stdint.h>
-#include <stdbool.h>
 #include <util/delay.h>
-#include "print.h"
-#include "debug.h"
-#include "util.h"
+
 #include "timer.h"
 #include "matrix.h"
 #include "ps2avrGB.h"
-#include <avr/wdt.h>
-#include "suspend.h"
-
 
 static matrix_row_t matrix[MATRIX_ROWS];
 
-
-void matrix_init(void)
-{
-#ifdef DEBUG
-    debug_enable = true;
-    debug_keyboard = true;
-#endif
-
+void matrix_init(void) {
     // all outputs for rows high
     DDRB = 0xFF;
     PORTB = 0xFF;
@@ -55,7 +38,9 @@ void matrix_init(void)
     PORTD |= (1<<PIND7);
 
     // initialize matrix state: all keys off
-    for (uint8_t i=0; i < MATRIX_ROWS; i++) matrix[i] = 0x00;
+    for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
+      matrix[row] = 0x00;
+    }
 }
 
 void matrix_set_row_status(uint8_t row) {
@@ -70,8 +55,7 @@ uint8_t bit_reverse(uint8_t x) {
     return x;
 }
 
-uint8_t matrix_scan(void)
-{
+uint8_t matrix_scan(void) {
     for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
         matrix_set_row_status(row);
         _delay_us(5);
@@ -91,14 +75,6 @@ uint8_t matrix_scan(void)
     return 1;
 }
 
-inline
-matrix_row_t matrix_get_row(uint8_t row)
-{
+inline matrix_row_t matrix_get_row(uint8_t row) {
     return matrix[row];
-}
-
-void matrix_power_up(void) {
-}
-
-void matrix_power_down(void) {
 }
