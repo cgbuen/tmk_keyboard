@@ -16,8 +16,8 @@ tested so far. But other ps2avrGB boards should work.
 First, install the requirements (these are for OSX):
 
 ```
-$ brew cask install crosspack-avr $ brew install --HEAD
-https://raw.githubusercontent.com/robertgzr/homebrew-tap/master/bootloadhid.rb
+$ brew cask install crosspack-avr
+$ brew install --HEAD https://raw.githubusercontent.com/robertgzr/homebrew-tap/master/bootloadhid.rb
 ```
 
 In order to use the `./program` script, which can reboot the board into
