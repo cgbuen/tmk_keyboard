@@ -1,15 +1,20 @@
 ps2avrGB keyboard firmware
 ==========================
 
-This is a TMK firmware for the ps2avrGB boards sold by
-[Winkeyless](http://winkeyless.kr/product/ps2avrgb-parts/). Note that this
-is a complete replacement for the firmware, so you won't be using
-Bootmapper Client to change the keyboard settings.
+This is a port of the TMK firmware for boards that are based on the
+ps2avrGB firmware, like the [ps2avrGB
+keyboard](https://www.keyclack.com/product/gb-ps2avrgb/) or the ones sold
+by [Winkeyless](http://winkeyless.kr/product/ps2avrgb-parts/).
+
+Note that this is a complete replacement for the firmware, so you won't be
+using Bootmapper Client to change the keyboard settings, since not all the
+report options are supported.
 
 ## Supported Boards
 
 Only the [B.mini X2](http://winkeyless.kr/product/b-mini-x2-pcb/) has been
-tested so far. But other ps2avrGB boards should work.
+tested so far (since it's the only one I own). But other boards that use
+the ps2avrGB firmware should work as well.
 
 ## Installing
 
@@ -52,7 +57,3 @@ tricks have been useful when it got stuck in a weird scenario.
    done, just reflash the board with the original firmware.
 2. Sometimes USB hubs can act weird, so try connecting the board directly
    to your computer or plugging/unplugging the USB hub.
-
-## TODO
-
-* Add support for controlling backlight
