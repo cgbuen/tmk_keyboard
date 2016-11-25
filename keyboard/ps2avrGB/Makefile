@@ -16,6 +16,7 @@ TARGET_DIR = .
 SRC =	\
 	keymap_ps2avrGB.c \
 	matrix.c \
+	backlight.c \
 	led.c
 
 CONFIG_H = config_vusb.h
@@ -53,6 +54,7 @@ MOUSEKEY_ENABLE = yes	# Mouse keys
 EXTRAKEY_ENABLE = yes	# Audio control and System control
 CONSOLE_ENABLE = yes	# Console for debug
 COMMAND_ENABLE = yes    # Commands for debug and configuration
+BACKLIGHT_ENABLE = yes
 
 
 
