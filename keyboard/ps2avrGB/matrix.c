@@ -32,11 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "suspend.h"
 
 
-// matrix state buffer(1:on, 0:off)
-static matrix_row_t *matrix;
-static matrix_row_t *matrix_prev;
-static matrix_row_t _matrix0[MATRIX_ROWS];
-static matrix_row_t _matrix1[MATRIX_ROWS];
+static matrix_row_t matrix[MATRIX_ROWS];
 
 
 void matrix_init(void)
@@ -59,10 +55,7 @@ void matrix_init(void)
     PORTD |= (1<<PIND7);
 
     // initialize matrix state: all keys off
-    for (uint8_t i=0; i < MATRIX_ROWS; i++) _matrix0[i] = 0x00;
-    for (uint8_t i=0; i < MATRIX_ROWS; i++) _matrix1[i] = 0x00;
-    matrix = _matrix0;
-    matrix_prev = _matrix1;
+    for (uint8_t i=0; i < MATRIX_ROWS; i++) matrix[i] = 0x00;
 }
 
 void matrix_set_row_status(uint8_t row) {
@@ -79,12 +72,6 @@ uint8_t bit_reverse(uint8_t x) {
 
 uint8_t matrix_scan(void)
 {
-    matrix_row_t *tmp;
-
-    tmp = matrix_prev;
-    matrix_prev = matrix;
-    matrix = tmp;
-
     for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
         matrix_set_row_status(row);
         _delay_us(5);
