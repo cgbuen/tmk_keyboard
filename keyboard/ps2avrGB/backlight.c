@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "backlight.h"
 #include "i2c.h"
 
-const uint32_t layer_colors[] = {
+const uint32_t layer_colors[] PROGMEM = {
     [0] = 0xFF0000,
     [1] = 0xFF6600,
     [2] = 0x00FFFF,
@@ -52,7 +52,10 @@ void backlight_set_color(uint8_t alpha, uint32_t color) {
 
 void backlight_set(uint8_t level) {
     current_level = level;
-    backlight_set_color(current_level * 0x11, layer_colors[current_color_idx]);
+    backlight_set_color(
+        current_level * 0x11,
+        pgm_read_dword(layer_colors + current_color_idx)
+    );
 }
 
 void hook_layer_change(uint32_t layer_state) {
