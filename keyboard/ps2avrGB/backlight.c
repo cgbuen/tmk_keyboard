@@ -31,9 +31,9 @@ void backlight_set_color(uint8_t alpha, uint32_t color) {
 
     uint8_t data[3 * NUM_BACKLIGHT_LEDS];
     for (uint8_t i = 0; i < NUM_BACKLIGHT_LEDS; i++) {
-      data[3 * i] = g;
-      data[3 * i + 1] = r;
-      data[3 * i + 2] = b;
+        data[3 * i] = g;
+        data[3 * i + 1] = r;
+        data[3 * i + 2] = b;
     }
 
     i2c_init();
