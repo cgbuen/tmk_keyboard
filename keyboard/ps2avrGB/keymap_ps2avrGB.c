@@ -2,7 +2,7 @@
 
 const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     KEYMAP( \
-        ESC, FN3, FN4, NO,  NO,  NO,  NO,  MPRV,MPLY,MNXT,MUTE,VOLD,VOLU,PSCR,HOME,END, \
+        ESC, FN3, FN4, FN5, FN6, NO,  NO,  MPRV,MPLY,MNXT,MUTE,VOLD,VOLU,PSCR,HOME,END, \
         GRV, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0,   MINS,EQL, BSPC,     DEL, \
         TAB, Q,   W,   E,   R,   T,   Y,   U,   I,   O,   P,   LBRC,RBRC,BSLS,     FN1, \
         FN2, A,   S,   D,   F,   G,   H,   J,   K,   L,   SCLN,QUOT,ENT,           PGUP,\
@@ -27,10 +27,34 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     ),
 };
 
+enum macro_id {
+    MAC_EXPOSE,
+    MAC_LAUNCHPAD,
+};
+
+const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
+    keyevent_t event = record->event;
+
+    switch (id) {
+        case MAC_EXPOSE:
+            return (event.pressed
+                    ? MACRO(D(LCTL), T(UP), U(LCTL), END)
+                    : MACRO(END));
+        case MAC_LAUNCHPAD:
+            return (event.pressed
+                    ? MACRO(D(LSHIFT), D(LCTL), T(L), U(LCTL), U(LSHIFT), END)
+                    : MACRO(END));
+    }
+
+    return MACRO_NONE;
+}
+
 const action_t fn_actions[] PROGMEM = {
     [0] = ACTION_LAYER_MOMENTARY(1),
     [1] = ACTION_LAYER_TOGGLE(2),
     [2] = ACTION_MODS_TAP_KEY(MOD_LCTL, KC_ESC),
     [3] = ACTION_BACKLIGHT_DECREASE(),
     [4] = ACTION_BACKLIGHT_INCREASE(),
+    [5] = ACTION_MACRO(MAC_EXPOSE),
+    [6] = ACTION_MACRO(MAC_LAUNCHPAD),
 };
