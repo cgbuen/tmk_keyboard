@@ -39,13 +39,13 @@ void matrix_init(void) {
 
     // initialize matrix state: all keys off
     for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
-      matrix[row] = 0x00;
+        matrix[row] = 0x00;
     }
 }
 
 void matrix_set_row_status(uint8_t row) {
-	DDRB = (1 << row);
-	PORTB = ~(1 << row);
+    DDRB = (1 << row);
+    PORTB = ~(1 << row);
 }
 
 uint8_t bit_reverse(uint8_t x) {
