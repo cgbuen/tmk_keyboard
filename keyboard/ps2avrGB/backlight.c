@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 const uint32_t layer_colors[] = {
     [0] = 0xFF0000,
-    [1] = 0x00FF00,
+    [1] = 0xFF6600,
     [2] = 0x00FFFF,
 };
 
