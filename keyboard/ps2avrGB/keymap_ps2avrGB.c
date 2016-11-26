@@ -13,17 +13,17 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
         NO,  F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, NO,  NO,  NO,  \
         NO,  NO,  NO,  NO,  NO,  NO,  NO,  MPRV,MPLY,MNXT,MUTE,VOLD,VOLU,DEL,      NO,  \
         NO,  NO,  NO,  NO,  NO,  NO,  NO,  PGUP,NO,  NO,  NO,  NO,  NO,  NO,       TRNS,\
-        FN2, NO,  NO,  PGDN,NO,  NO,  LEFT,DOWN,UP,  RGHT,NO,  NO,  NO,            NO,  \
+        TRNS,NO,  NO,  PGDN,NO,  NO,  LEFT,DOWN,UP,  RGHT,NO,  NO,  NO,            NO,  \
         TRNS,NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  TRNS,          NO,  NO,  \
         TRNS,TRNS,TRNS,          NO,                      TRNS,TRNS,TRNS,NO,  NO,  NO   \
     ),
     KEYMAP( \
-        NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  \
+        TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,\
         NO,  NO,  NO,  NO,  END, NO,  NO,  NO,  NO,  NO,  HOME,NO,  NO,  NO,       NO,  \
         NO,  BTN1,MS_U,BTN2,NO,  NO,  NO,  PGUP,FN1, NO,  NO,  NO,  NO,  NO,       TRNS,\
-        FN2, MS_L,MS_D,MS_R,NO,  NO,  LEFT,DOWN,UP,  RGHT,NO,  NO,  NO,            NO,  \
-        TRNS,NO,  DEL, NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  TRNS,          NO,  NO,  \
-        TRNS,TRNS,TRNS,          NO,                      TRNS,TRNS,TRNS,NO,  NO,  NO   \
+        TRNS,MS_L,MS_D,MS_R,NO,  NO,  LEFT,DOWN,UP,  RGHT,NO,  NO,  NO,            TRNS,\
+        TRNS,NO,  DEL, NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  TRNS,          TRNS,TRNS,\
+        TRNS,TRNS,TRNS,          NO,                      TRNS,TRNS,TRNS,TRNS,TRNS,TRNS \
     ),
 };
 
