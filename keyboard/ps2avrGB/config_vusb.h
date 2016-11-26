@@ -31,8 +31,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MATRIX_COLS 15
 
 /* only support one hard-coded backlight color for now */
-#define BACKLIGHT_LEVELS 0
-#define BACKLIGHT_COLOR 0x110000
+#define BACKLIGHT_LEVELS 15
+#define BACKLIGHT_COLOR 0xFF0000
 
 #define NO_UART 1
 #define EEPROM_BOOTLOADER_START 1

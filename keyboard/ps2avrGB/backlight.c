@@ -19,10 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <util/twi.h>
 #include "backlight.h"
 
-uint8_t r = (BACKLIGHT_COLOR >> 16) & 0xFF;
-uint8_t g = (BACKLIGHT_COLOR >> 8) & 0xFF;
-uint8_t b = BACKLIGHT_COLOR & 0xFF;
-
 void i2c_set_bitrate(uint16_t bitrate_khz) {
     uint8_t bitrate_div = ((F_CPU / 1000l) / bitrate_khz);
     if (bitrate_div >= 16) {
@@ -106,7 +102,15 @@ uint8_t i2c_send(uint8_t address, uint8_t *data, uint16_t length) {
     return 0;
 }
 
-void backlight_set(uint8_t level) {
+uint8_t dim(uint8_t color, uint8_t opacity) {
+    return ((uint16_t) color * opacity / 0xFF) & 0xFF;
+}
+
+void backlight_set_color(uint8_t alpha, uint32_t color) {
+    uint8_t r = dim((color >> 16) & 0xFF, alpha);
+    uint8_t g = dim((color >> 8) & 0xFF, alpha);
+    uint8_t b = dim(color & 0xFF, alpha);
+
     uint8_t data[] = {
       g, r, b,
       g, r, b,
@@ -130,12 +134,16 @@ void backlight_set(uint8_t level) {
     i2c_send(0xB0, data, 48);
 }
 
+uint8_t current_level;
+
+void backlight_set(uint8_t level) {
+    current_level = level;
+    backlight_set_color(level * 0x11, BACKLIGHT_COLOR);
+}
+
 void hook_layer_change(uint32_t layer_state) {
-    uint8_t tmp;
-
-    tmp = r;
-    r = b;
-    b = tmp;
-
-    backlight_set(0);
+    uint32_t color = layer_state
+        ? BACKLIGHT_COLOR ^ 0xFFFFFF
+        : BACKLIGHT_COLOR;
+    backlight_set_color(current_level * 0x11, color);
 }
