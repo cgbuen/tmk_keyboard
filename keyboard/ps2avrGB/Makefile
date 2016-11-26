@@ -16,6 +16,7 @@ TARGET_DIR = .
 SRC =	\
 	keymap_ps2avrGB.c \
 	matrix.c \
+	i2c.c \
 	backlight.c \
 	led.c
 
