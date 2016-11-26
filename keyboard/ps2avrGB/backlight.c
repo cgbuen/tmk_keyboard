@@ -15,6 +15,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <avr/pgmspace.h>
+
 #include "backlight.h"
 #include "i2c.h"
 
@@ -45,9 +47,18 @@ void backlight_set(uint8_t level) {
     backlight_set_color(level * 0x11, BACKLIGHT_COLOR);
 }
 
+const uint32_t layer_colors[] PROGMEM = {
+    0xFF0000,
+    0x00FF00,
+    0x00FFFF,
+};
+
 void hook_layer_change(uint32_t layer_state) {
-    uint32_t color = layer_state
-        ? BACKLIGHT_COLOR ^ 0xFFFFFF
-        : BACKLIGHT_COLOR;
+    uint32_t color = layer_colors[0];
+    for (int8_t i = sizeof(layer_colors) / sizeof(uint32_t) - 1; i >= 0; i--) {
+        if (layer_state & (1 << i)) {
+            color = layer_colors[i];
+        }
+    }
     backlight_set_color(current_level * 0x11, color);
 }
