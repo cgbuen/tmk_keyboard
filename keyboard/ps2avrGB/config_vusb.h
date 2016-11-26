@@ -33,7 +33,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* only support one hard-coded backlight color for now */
 #define NUM_BACKLIGHT_LEDS 16
 #define BACKLIGHT_LEVELS 15
-#define BACKLIGHT_COLOR 0xFF0000
 
 #define NO_UART 1
 #define EEPROM_BOOTLOADER_START 1

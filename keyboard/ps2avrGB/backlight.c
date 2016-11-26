@@ -17,9 +17,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <avr/pgmspace.h>
 
+#include "action_layer.h"
 #include "backlight.h"
 #include "i2c.h"
 
+const uint32_t layer_colors[] = {
+    [0] = 0xFF0000,
+    [1] = 0x00FF00,
+    [2] = 0x00FFFF,
+};
+
+size_t current_color_idx;
 uint8_t current_level;
 
 uint8_t dim(uint8_t color, uint8_t opacity) {
@@ -44,21 +52,17 @@ void backlight_set_color(uint8_t alpha, uint32_t color) {
 
 void backlight_set(uint8_t level) {
     current_level = level;
-    backlight_set_color(level * 0x11, BACKLIGHT_COLOR);
+    backlight_set_color(current_level * 0x11, layer_colors[current_color_idx]);
 }
 
-const uint32_t layer_colors[] PROGMEM = {
-    0xFF0000,
-    0x00FF00,
-    0x00FFFF,
-};
-
 void hook_layer_change(uint32_t layer_state) {
-    uint32_t color = layer_colors[0];
-    for (int8_t i = sizeof(layer_colors) / sizeof(uint32_t) - 1; i >= 0; i--) {
+    current_color_idx = 0;
+
+    for (size_t i = 0; i < sizeof(layer_colors) / sizeof(uint32_t); i++) {
         if (layer_state & (1 << i)) {
-            color = layer_colors[i];
+            current_color_idx = i;
         }
     }
-    backlight_set_color(current_level * 0x11, color);
+
+    backlight_set(current_level);
 }
