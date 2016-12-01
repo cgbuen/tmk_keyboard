@@ -1,6 +1,3 @@
-/* 
- * Hasu: my personal keymap
- */
 #include "keymap_common.h"
 
 
@@ -186,7 +183,6 @@ enum macro_id {
     VOLUP,
     ALT_TAB,
 };
-
 
 /*
  * Fn action definition
