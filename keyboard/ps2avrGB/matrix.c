@@ -22,7 +22,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "matrix.h"
 #include "ps2avrGB.h"
 
+#ifndef DEBOUNCE
+#   define DEBOUNCE	5
+#endif
+
+static uint8_t debouncing = DEBOUNCE;
+
 static matrix_row_t matrix[MATRIX_ROWS];
+static matrix_row_t matrix_debouncing[MATRIX_ROWS];
 
 void matrix_init(void) {
     // all outputs for rows high
@@ -40,6 +47,7 @@ void matrix_init(void) {
     // initialize matrix state: all keys off
     for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
         matrix[row] = 0x00;
+        matrix_debouncing[row] = 0x00;
     }
 }
 
@@ -60,7 +68,7 @@ uint8_t matrix_scan(void) {
         matrix_set_row_status(row);
         _delay_us(5);
 
-        matrix[row] = (
+        matrix_row_t cols = (
             // cols 0..7, PORTA 0 -> 7
             (~PINA) & 0xFF
         ) | (
@@ -70,6 +78,21 @@ uint8_t matrix_scan(void) {
             // col 14, PORTD 7
             ((~PIND) & (1 << PIND7)) << 7
         );
+
+        if (matrix_debouncing[row] != cols) {
+            matrix_debouncing[row] = cols;
+            debouncing = DEBOUNCE;
+        }
+    }
+
+    if (debouncing) {
+        if (--debouncing) {
+            _delay_ms(1);
+        } else {
+            for (uint8_t i = 0; i < MATRIX_ROWS; i++) {
+                matrix[i] = matrix_debouncing[i];
+            }
+        }
     }
 
     return 1;
