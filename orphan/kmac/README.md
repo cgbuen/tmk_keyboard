@@ -13,7 +13,7 @@ Build
 -----
 Move to this directory then just run `make` like:
 
-    $ make -f Makefile.[pjrc|lufa] [winkey|winkeyless|happy]
+    $ make -f Makefile.[pjrc|lufa] [winkey|winkeyless|happy|mini]
 
 Use `Makefile.pjrc` if you want to use PJRC stack or use `Makefile.lufa` for LUFA stack.
 
