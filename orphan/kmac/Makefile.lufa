@@ -131,3 +131,6 @@ winkeyless: all
 
 happy: OPT_DEFS += -DLAYOUT_HAPPY
 happy: all
+
+mini: OPT_DEFS += -DLAYOUT_MINI
+mini: all

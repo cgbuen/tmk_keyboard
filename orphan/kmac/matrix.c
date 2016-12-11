@@ -73,9 +73,10 @@ uint8_t matrix_scan(void)
         select_col(col);    
         _delay_us(3); // TODO: Determine the correct value needed here.
         uint8_t rows = read_rows();
-        if(col == 0) {
+        if((col == 0 && !LAYOUT_MINI) || (col == 2 && LAYOUT_MINI) ) {
             rows |= read_caps();
         }
+        
         for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
             bool prev_bit = matrix_debouncing[row] & ((matrix_row_t)1<<col);
             bool curr_bit = rows & (1<<row);
@@ -149,7 +150,7 @@ static void init_rows(void)
     // Input (DDR:0, PORT:0) for matrix
     DDRD  &= ~0b00101111;
     PORTD &= ~0b00101111;
-    if(!LAYOUT_HAPPY){
+    if(!LAYOUT_HAPPY && !LAYOUT_MINI){
         DDRB  &= ~(1<<7);
         PORTB &= ~(1<<7);
     }
@@ -160,7 +161,7 @@ static void init_rows(void)
 
 static uint8_t read_rows()
 {
-    if(LAYOUT_HAPPY){
+    if(LAYOUT_HAPPY || LAYOUT_MINI){
         return (PIND&(1<<0) ? (1<<0) : 0) |
                (PIND&(1<<1) ? (1<<1) : 0) |
                (PIND&(1<<2) ? (1<<2) : 0) |
@@ -179,7 +180,7 @@ static uint8_t read_rows()
 
 static uint8_t read_caps(void)
 {
-    if(LAYOUT_HAPPY){
+    if(LAYOUT_HAPPY || LAYOUT_MINI){
         return PINE&(1<<2) ? 0 : (1<<2);
     }
     else{
@@ -233,6 +234,30 @@ static uint8_t read_caps(void)
  *
  *
  */
+
+
+/* Columns 0 - 14 MINI SIZE
+ * These columns uses one 74HC237D 3 to 8 bit demultiplexer Column 0-8
+ * col / pin:   PB5 PB6 PC6  PF0  PF1  PC7  PE6  PB0  PB7  PD4  PD6  PD7  PB4
+ * 0:                   1    0    0    0    0    0    0    0    0    0    0
+ * 1:                   1    1    0    0    0    0    0    0    0    0    0
+ * 2:                   1    0    1    0    0    0    0    0    0    0    0
+ * 3:                   1    1    1    0    0    0    0    0    0    0    0
+ * 4:                   1    0    0    1    0    0    0    0    0    0    0
+ * 5:             1    1    0    1    0    0    0    0    0    0    0
+ * 6:             1    0    1    1    0    0    0    0    0    0    0
+ * 7:             1    1    1    1    0    0    0    0    0    0    0
+ * 8:             0    0    0    0    1    0    0    0    0    0    0
+ * 9:             0    0    0    0    0    1    0    0    0    0    0
+ * 10:            0    0    0    0    0    0    1    0    0    0    0
+ * 11:            0    0    0    0    0    0    0    1    0    0    0
+ * 12:            0    0    0    0    0    0    0    0    1    0    0
+ * 13:            0    0    0    0    0    0    0    0    0    1    0
+ * 14:            0    0    0    0    0    0    0    0    0    0    1
+ *
+ *
+ *
+ */
 static void unselect_cols(void)
 {
     if(LAYOUT_HAPPY){
@@ -245,6 +270,19 @@ static void unselect_cols(void)
 
         DDRE |= (1<<6);
         PORTE &= ~(1<<6);
+    }else if(LAYOUT_MINI){
+
+        DDRB |= (1<<0) | (1<<4) | (1<<7);
+        PORTB &= ~((1<<0) | (1<<4) | (1<<7));
+
+        DDRD |= (1<<4) | (1<<6) | (1<<7);
+        PORTD &= ~((1<<4) | (1<<6) | (1<<7));
+
+        DDRE |= (1<<6);
+        PORTE &= ~(1<<6);
+
+        DDRB |= (1<<5) | (1<<6);
+        PORTB &= ~((1<<5) | (1<<6));
     }else{
 
         DDRB |= (1<<5) | (1<<6);
@@ -262,44 +300,45 @@ static void select_col(uint8_t col)
 {
     // Output high (DDR:1, PORT:1) to select
     switch (col) {
-        case 0:
-            PORTC |= (1<<6);
-            break;
-        case 1:
-            PORTC |= (1<<6);
-            PORTF |= (1<<0);
-            break;
-        case 2:
-            PORTC |= (1<<6);
-            PORTF |= (1<<1);
-            break;
-        case 3:
-            PORTC |= (1<<6);
-            PORTF |= (1<<0) | (1<<1);
-            break;
-        case 4:
-            PORTC |= (1<<6);
-            PORTC |= (1<<7);
-            break;
-        case 5:
-            PORTC |= (1<<6);
-            PORTF |= (1<<0);
-            PORTC |= (1<<7);
-            break;
-        case 6:
-            PORTC |= (1<<6);
-            PORTF |= (1<<1);
-            PORTC |= (1<<7);
-            break;
-        case 7:
-            PORTC |= (1<<6);
-            PORTF |= (1<<0) | (1<<1);
-            PORTC |= (1<<7);
-            break;
+       
     }
 
     if(LAYOUT_HAPPY){
         switch(col){
+             case 0:
+                PORTC |= (1<<6);
+                break;
+            case 1:
+                PORTC |= (1<<6);
+                PORTF |= (1<<0);
+                break;
+            case 2:
+                PORTC |= (1<<6);
+                PORTF |= (1<<1);
+                break;
+            case 3:
+                PORTC |= (1<<6);
+                PORTF |= (1<<0) | (1<<1);
+                break;
+            case 4:
+                PORTC |= (1<<6);
+                PORTC |= (1<<7);
+                break;
+            case 5:
+                PORTC |= (1<<6);
+                PORTF |= (1<<0);
+                PORTC |= (1<<7);
+                break;
+            case 6:
+                PORTC |= (1<<6);
+                PORTF |= (1<<1);
+                PORTC |= (1<<7);
+                break;
+            case 7:
+                PORTC |= (1<<6);
+                PORTF |= (1<<0) | (1<<1);
+                PORTC |= (1<<7);
+                break;
             case 8:  
                 PORTE |= (1<<6);
                 break;
@@ -322,8 +361,106 @@ static void select_col(uint8_t col)
                 PORTB |= (1<<4);
                 break;
         }
+    }else if(LAYOUT_MINI){
+        switch(col){
+            case 0:
+                PORTB |= (1<<5);
+                break;
+            case 1:
+                PORTB |= (1<<6);
+                break;
+            case 2:
+                PORTC |= (1<<6);
+                break;
+            case 3:
+                PORTC |= (1<<6);
+                PORTF |= (1<<0);
+                break;
+            case 4:
+                PORTC |= (1<<6);
+                PORTF |= (1<<1);
+                break;
+            case 5:
+                PORTC |= (1<<6);
+                PORTF |= (1<<0) | (1<<1);
+                break;
+            case 6:
+                PORTC |= (1<<6);
+                PORTC |= (1<<7);
+                break;
+            case 7:
+                PORTC |= (1<<6);
+                PORTF |= (1<<0);
+                PORTC |= (1<<7);
+                break;
+            case 8:
+                PORTC |= (1<<6);
+                PORTF |= (1<<1);
+                PORTC |= (1<<7);
+                break;
+            case 9:
+                PORTC |= (1<<6);
+                PORTF |= (1<<0) | (1<<1);
+                PORTC |= (1<<7);
+                break;
+            case 10:  
+                PORTE |= (1<<6);
+                break;
+            case 11:
+                PORTB |= (1<<0);  
+                break;
+            case 12:
+                PORTB |= (1<<7);
+                break;
+            case 13:
+                PORTD |= (1<<4);
+                break;
+            case 14:
+                PORTD |= (1<<6);
+                break;
+            case 15:
+                PORTD |= (1<<7);
+                break;
+            case 16:
+                PORTB |= (1<<4);
+                break;
+        }
     }else{
         switch(col){
+            case 0:
+                PORTC |= (1<<6);
+                break;
+            case 1:
+                PORTC |= (1<<6);
+                PORTF |= (1<<0);
+                break;
+            case 2:
+                PORTC |= (1<<6);
+                PORTF |= (1<<1);
+                break;
+            case 3:
+                PORTC |= (1<<6);
+                PORTF |= (1<<0) | (1<<1);
+                break;
+            case 4:
+                PORTC |= (1<<6);
+                PORTC |= (1<<7);
+                break;
+            case 5:
+                PORTC |= (1<<6);
+                PORTF |= (1<<0);
+                PORTC |= (1<<7);
+                break;
+            case 6:
+                PORTC |= (1<<6);
+                PORTF |= (1<<1);
+                PORTC |= (1<<7);
+                break;
+            case 7:
+                PORTC |= (1<<6);
+                PORTF |= (1<<0) | (1<<1);
+                PORTC |= (1<<7);
+                break;
             case 8:
                 PORTB |= (1<<6);
                 break;

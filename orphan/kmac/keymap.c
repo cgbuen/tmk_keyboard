@@ -78,10 +78,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* 0 */   { KC_##R16, KC_##R22, KC_##R27, KC_NO,    KC_##R36, KC_##R45, KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_##R71, KC_NO,    KC_##R78, KC_##R83,KC_NO } \
 }
 
+
+#define KEYMAP_MINI( \
+    R03, R08, R13, R18, R23, R28, R32, R41, R46, R51, R56, R61, R67, R72, R76, R80, R85, \
+    R04, R09, R14, R19, R24, R29, R33, R42, R47, R52, R57, R62, R68, R73, R77, R81, R86, \
+    R05, R10, R36, R20, R25, R30, R34, R43, R48, R53, R58, R63, R69, R74,      R82, R87, \
+    R06, R11, R15, R21, R26, R31, R35, R44, R49, R54, R59, R64, R70,      R78, R83, R88, \
+    R07, R12, R16, R22, R27,           R45,                          R71, R79, R84, R89 \
+) { \
+/* 4 */   { KC_##R03, KC_##R08, KC_##R13, KC_##R18, KC_##R23, KC_##R28, KC_##R32, KC_##R41, KC_##R46, KC_##R51, KC_##R56, KC_##R61, KC_##R67, KC_##R72, KC_##R76, KC_##R80,KC_##R85 }, \
+/* 3 */   { KC_##R04, KC_##R09, KC_##R14, KC_##R19, KC_##R24, KC_##R29, KC_##R33, KC_##R42, KC_##R47, KC_##R52, KC_##R57, KC_##R62, KC_##R68, KC_##R73, KC_##R77, KC_##R81,KC_##R86 }, \
+/* 2 */   { KC_##R05, KC_##R10, KC_##R36, KC_##R20, KC_##R25, KC_##R30, KC_##R34, KC_##R43, KC_##R48, KC_##R53, KC_##R58, KC_##R63, KC_##R69, KC_##R74, KC_NO,    KC_##R82,KC_##R87 }, \
+/* 1 */   { KC_##R06, KC_##R11, KC_##R15, KC_##R21, KC_##R26, KC_##R31, KC_##R35, KC_##R44, KC_##R49, KC_##R54, KC_##R59, KC_##R64, KC_##R70, KC_NO,    KC_##R78, KC_##R83,KC_##R88 }, \
+/* 0 */   { KC_##R07, KC_##R12, KC_##R16, KC_##R22, KC_##R27, KC_NO,    KC_NO,    KC_##R45, KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_##R71,    KC_NO, KC_##R79, KC_##R84,KC_##R89 } \
+}
+
 #if defined(LAYOUT_WINKEYLESS)
     #include "keymap_winkeyless.h"
 #elif defined(LAYOUT_HAPPY)
     #include "keymap_happy.h"
+#elif defined(LAYOUT_MINI)
+    #include "keymap_mini.h"
 #else
     #include "keymap_winkey.h"
 #endif
@@ -103,11 +120,11 @@ uint8_t keymap_key_to_keycode(uint8_t layer, keypos_t key)
 /* translates Fn keycode to action */
 action_t keymap_fn_to_action(uint8_t keycode)
 {
-    /*action_t action;
-    if (FN_INDEX(keycode) < FN_ACTIONS_SIZE) {
+    action_t action;
+    /*if (FN_INDEX(keycode) < FN_ACTIONS_SIZE) {
         action.code = pgm_read_word(&fn_actions[FN_INDEX(keycode)]);
     } else {
         action.code = ACTION_NO;
-    }
-    return action;*/
+    }*/
+    return action;
 }
