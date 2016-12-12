@@ -21,8 +21,13 @@ static const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
         I, J, LCTL,LGUI,LALT,             SPC,                     RALT,       LEFT, VOLD, MUTE )
 
 };
-static const action_t PROGMEM fn_actions[] = {
+#ifdef KEYMAP_SECTION_ENABLE
+const action_t fn_actions[] __attribute__ ((section (".keymap.fn_actions"))) = {
+#else
+const action_t fn_actions[] PROGMEM = {
+#endif
+ 
     [0] = ACTION_LAYER_MOMENTARY(1),
     [1] = ACTION_LAYER_MOMENTARY(2),
-    [2] = ACTION_LAYER_MOMENTARY(3)
+    [2] = ACTION_LAYER_MOMENTARY(3),
 };
