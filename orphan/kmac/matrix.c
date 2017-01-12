@@ -32,6 +32,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef LAYOUT_HAPPY
 #    define LAYOUT_HAPPY 0
 #endif
+#ifndef LAYOUT_MINI
+#    define LAYOUT_MINI 0
+#endif
 static uint8_t debouncing = DEBOUNCE;
 
 /* matrix state(1:on, 0:off) */
