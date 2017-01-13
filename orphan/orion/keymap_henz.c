@@ -5,27 +5,31 @@
 const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* 0: qwerty */
     [0] = KEYMAP_WINKEYLESS(\
-        ESC,      F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12,       B,C,D,  \
-        GRV, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0,   MINS,EQL, BSPC,      INS, HOME,PGUP, \
-        TAB, Q,   W,   E,   R,   T,   Y,   U,   I,   O,   P,   LBRC,RBRC,BSLS,      DEL, END, PGDN, \
-        LCTL, A,   S,   D,   F,   G,   H,   J,   K,   L,   SCLN,QUOT,     ENT,                       \
-        LSFT,     Z,   X,   C,   V,   B,   N,   M,   COMM,DOT, SLSH,     RSFT,           UP,        \
-        LCTL,LGUI,LALT,               FN0,                     RALT,FN0,RCTL,      LEFT,DOWN,RGHT),
+        ESC,      F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12,       PSCR,SLCK,BRK,  \
+        GRV, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0,   SLSH,EQL, BSLS,      INS, HOME,PGUP, \
+        TAB, QUOT,COMM,DOT,   P,   Y,   F,   G,   C,   R,   L,   LBRC,RBRC,BSPC,    DEL, END, PGDN, \
+        LCTL, A,   O,   E,   U,   I,   D,   H,   T,   N,   S,  MINS,     ENT,                       \
+        LSFT, SCLN,   Q,   J,   K,   X,   B,   M,   W,   V,   Z,     RSFT,                UP,        \
+        LCTL,LGUI,LALT,               FN0,                     RALT,RGUI,RCTL,      LEFT,DOWN,RGHT),
+    
+    [1] = KEYMAP_WINKEYLESS(\
+        ESC,      F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12,       FN2,FN3,FN4,  \
+        GRV, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0,   SLSH,EQL, BSPC,      FN12, FN5,PGUP, \
+        TAB, FN6,   FN7,   FN8,   P,   Y,   F,   G,   C,   R,   L,   LBRC,RBRC,BSLS,      DEL, END, PGDN, \
+        LCTL, A,   O,   E,   U,   I,   D,   H,   T,   N,   S,  MINS,     ENT,                       \
+        FN1, SCLN,   Q,   J,   K,   X,   B,   M,   W,V, Z,     RSFT,           UP,        \
+        LCTL,LGUI,LALT,               TRNS,                     RALT,RGUI,RCTL,      LEFT,DOWN,RGHT),
+
+     [2] = KEYMAP_WINKEYLESS(\
+        ESC,      F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12,       PSCR,SLCK,BRK,  \
+        GRV, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0,   SLSH,EQL, BSPC,      INS, HOME,PGUP, \
+        TAB, FN9,FN10,FN11, P,   Y,   F,   G,   C,   R,   L,   LBRC,RBRC,BSLS,      DEL, END, PGDN, \
+        LCTL, A,   O,   E,   U,   I,   D,   H,   T,   N,   S,  MINS,     ENT,                       \
+        TRNS, SCLN,   Q,   J,   K,   X,   B,   M,   W,V, Z,     RSFT,           UP,        \
+        LCTL,LGUI,LALT,               TRNS,                     RALT,RGUI,RCTL,      LEFT,DOWN,RGHT),
     
 };
 
-#ifdef KEYMAP_SECTION_ENABLE
-const action_t fn_actions[] __attribute__ ((section (".keymap.fn_actions"))) = {
-#else
-const action_t fn_actions[] PROGMEM = {
-#endif
-    [0] = ACTION_LAYER_TAP_KEY(1, KC_SPC),
-    [1] = ACTION_BACKLIGHT_TOGGLE(),
-    [2] = ACTION_BACKLIGHT_LEVEL(BACKLIGHT_SWITCH),
-    [3] = ACTION_BACKLIGHT_LEVEL(BACKLIGHT_RGBRED),
-    [4] = ACTION_BACKLIGHT_LEVEL(BACKLIGHT_RGBGREEN),
-    [5] = ACTION_BACKLIGHT_LEVEL(BACKLIGHT_RGBBLUE)
-};
 
 enum macro_id {
     AE,
@@ -35,6 +39,27 @@ enum macro_id {
     CAA,
     COE
 };
+
+#ifdef KEYMAP_SECTION_ENABLE
+const action_t fn_actions[] __attribute__ ((section (".keymap.fn_actions"))) = {
+#else
+const action_t fn_actions[] PROGMEM = {
+#endif
+    [0] = ACTION_LAYER_TAP_KEY(1, KC_SPC),
+    [1] = ACTION_LAYER_MOMENTARY(2),
+    [2] = ACTION_BACKLIGHT_LEVEL(BACKLIGHT_SWITCH),
+    [3] = ACTION_BACKLIGHT_LEVEL(BACKLIGHT_RGBRED),
+    [4] = ACTION_BACKLIGHT_LEVEL(BACKLIGHT_RGBGREEN),
+    [5] = ACTION_BACKLIGHT_LEVEL(BACKLIGHT_RGBBLUE),
+    [6] = ACTION_MACRO(AE),
+    [7] = ACTION_MACRO(AA),
+    [8] = ACTION_MACRO(OE),
+    [9] = ACTION_MACRO(CAE),
+    [10] = ACTION_MACRO(CAA),
+    [11] = ACTION_MACRO(COE),
+    [12] = ACTION_BACKLIGHT_TOGGLE(),
+};
+
 
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
