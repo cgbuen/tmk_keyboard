@@ -14,7 +14,7 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
            TAB, QUOT,   COMM,   DOT,   P,   Y,   F,   G,   C,   R,   L,   LBRC,RBRC,BSPC, \
            LCTL,A,   O,   E,   U,   I,   D,   H,   T,   N,   S, MINS,ENT, \
            LSFT, SCLN,   Q,   J,   K,   X,   B,   M,   W, V, Z, RSFT,FN0, \
-                LGUI,LALT,          FN0,                RALT, RGUI),
+                 LALT,LGUI,          FN0,                RGUI, RALT),
 
 
     //WINDOWS
@@ -22,8 +22,8 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     KEYMAP(ESC, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0,   SLSH,EQL, BSLS,GRV, \
            TAB, QUOT,   COMM,   DOT,   P,   Y,   F,   G,   C,   R,   L,   LBRC,RBRC,BSPC, \
            LCTL,A,   O,   E,   U,   I,   D,   H,   T,   N,   S, MINS,ENT, \
-           LSFT, SCLN,   Q,   J,   K,   X,   B,   M,   W, V, Z, RSFT,FN0, \
-                LGUI,LALT,          FN0,                RALT, RGUI),
+           TRNS, SCLN,   Q,   J,   K,   X,   B,   M,   W, V, Z, RSFT,FN0, \
+                LALT, LGUI,          TRNS,                RGUI,RALT),
 
 
     //LINUX
@@ -43,7 +43,7 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
                 LGUI,LALT,          SPC,                RALT,RGUI),
 
     //WINDOWS
-    [2] = \
+    [4] = \
     KEYMAP(GRV, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, NO, NO, \
            CAPS,FN3, FN4,   FN5,  NO,  NO,  NO,  PGUP,  UP, PGDN,PAUS, PSCR,  SLCK,  DEL, \
            LCTL,VOLD,VOLU,MUTE,NO,  NO,  PAST,LEFT,DOWN,RGHT,NO,NO,ENT, \
@@ -51,7 +51,7 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
                 LGUI,LALT,          TRNS,               RALT,RGUI),
 
     //WINDOWS
-    [3] = \
+    [5] = \
     KEYMAP(GRV, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, INS, DEL, \
            TAB, FN6, FN7, FN8,  PGUP,END, HOME,PGDN,PGUP,END, NO,  NO,  NO,  BSPC, \
            LCTL,NO,  LEFT,DOWN,RGHT,NO,  LEFT,DOWN,UP,  RGHT,NO,  NO,  ENT, \
@@ -59,28 +59,6 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
                 LGUI,LALT,          SPC,                RALT,RGUI),
 
 
-
-#endif
-#if 0
-    /* Layer x: Matias half-qwerty keyboard style[Space]
-     * ,-----------------------------------------------------------.
-     * |  -|  0|  9|  8|  7|  6|  5|  4|  3|  2|  1|   |   |   |Esc|
-     * |-----------------------------------------------------------|
-     * |Backs|  P|  O|  I|  U|  Y|  T|  R|  E|  W|  Q|   |   |Tab  |
-     * |-----------------------------------------------------------|
-     * |Contro|  ;|  L|  K|  J|  H|  G|  F|  D|  S|  A|Con|Control |
-     * |-----------------------------------------------------------|
-     * |Shift   |  /|  .|  ,|  M|  N|  B|  V|  C|  X|  Z|Shift |   |
-     * `-----------------------------------------------------------'
-     *      |Gui |Alt  |          Fn0          |Alt  |Gui|
-     *      `--------------------------------------------'
-     */
-    KEYMAP(MINS,0,   9,   8,   7,   6,   5,   4,   3,   2,   1,   NO,  NO,  NO,  ESC, \
-           BSPC,P,   O,   I,   U,   Y,   T,   R,   E,   W,   Q,   NO,  NO,  TAB, \
-           LCTL,SCLN,L,   K,   J,   H,   G,   F,   D,   S,   A,   RCTL,RCTL, \
-           LSFT,SLSH,DOT, COMM,M,   N,   B,   V,   C,   X,   Z,   RSFT,NO, \
-                LGUI,LALT,          TRNS,               RALT,RGUI),
-#endif
 };
 
 
@@ -91,22 +69,25 @@ enum function_id {
 };
 
 enum macro_id {
-    HELLO,
-    VOLUP,
-    ALT_TAB,
+    AE,
+    AA,
+    OE,
+    CAE,
+    CAA,
+    COE
 };
 
 /*
  * Fn action definition
  */
 #ifdef KEYMAP_SECTION_ENABLE
-const uint16_t fn_actions[] __attribute__ ((section (".keymap.fn_actions"))) = {
+const action_t fn_actions[] __attribute__ ((section (".keymap.fn_actions"))) = {
 #else
-const uint16_t fn_actions[] PROGMEM = {
+const action_t fn_actions[] PROGMEM = {
 #endif
-   [0] = ACTION_LAYER_TAP_KEY(1, KC_SPC),
-    [1] = ACTION_LAYER_MOMENTARY(2),
-    [2] = ACTION_LAYER_MOMENTARY(3),
+    [0] = ACTION_LAYER_TAP_KEY(2, KC_SPC),
+    [1] = ACTION_LAYER_MOMENTARY(3),
+    [2] = ACTION_LAYER_MOMENTARY(4),
     [3] = ACTION_MACRO(AE),
     [4] = ACTION_MACRO(AA),
     [5] = ACTION_MACRO(OE),
@@ -196,14 +177,7 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
     }
 }
 
-enum macro_id {
-    AE,
-    AA,
-    OE,
-    CAE,
-    CAA,
-    COE
-};
+
 
 
 

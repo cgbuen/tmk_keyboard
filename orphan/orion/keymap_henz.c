@@ -13,11 +13,11 @@ const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         LCTL,LGUI,LALT,               FN0,                     RALT,RGUI,RCTL,      LEFT,DOWN,RGHT),
     
     [1] = KEYMAP_WINKEYLESS(\
-        ESC,      F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12,       FN2,FN3,FN4,  \
-        GRV, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0,   SLSH,EQL, BSPC,      FN12, FN5,PGUP, \
-        TAB, FN6,   FN7,   FN8,   P,   Y,   F,   G,   C,   R,   L,   LBRC,RBRC,BSLS,      DEL, END, PGDN, \
-        LCTL, A,   O,   E,   U,   I,   D,   H,   T,   N,   S,  MINS,     ENT,                       \
-        FN1, SCLN,   Q,   J,   K,   X,   B,   M,   W,V, Z,     RSFT,           UP,        \
+        ESC,      F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9, F10, F11, F12,       FN2, FN3, FN4,  \
+        GRV, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0,    SLSH,EQL, BSPC,    FN12,FN5,  PGUP, \
+        TAB, FN6,   FN7,   FN8,   P,   Y,   F,G,   UP,   R,   L,   SLSH,EQL,DEL,  DEL, END, PGDN, \
+        LCTL, HOME,END,PGUP,PGDN,   I,   D,   LEFT,DOWN,RIGHT,   S,  MINS, ENT,                       \
+        FN1, SCLN,   Q,   J,   K,   X,   B,   M,   W ,  V,   Z,     RSFT,                      UP,        \
         LCTL,LGUI,LALT,               TRNS,                     RALT,RGUI,RCTL,      LEFT,DOWN,RGHT),
 
      [2] = KEYMAP_WINKEYLESS(\
