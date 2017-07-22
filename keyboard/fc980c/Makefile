@@ -1,25 +1,22 @@
-# Target file name (without extension).
-TARGET ?= x68k_usb
+# Target name
+TARGET ?= fc980c
 
-# Directory common source filess exist
+# Location of tmk_core
 TMK_DIR ?= ../../tmk_core
 
-# Directory keyboard dependent files exist
+# Location of target dependent files exist
 TARGET_DIR ?= .
 
-# project specific files
-SRC ?=	matrix.c \
-	led.c \
-	protocol/serial_uart.c
 
-CONFIG_H = config.h
+# List C source files
+SRC ?=	fc980c.c
+
+# Configure file
+CONFIG_H ?= config.h
 
 
 # MCU name
-# atmega32u4 	Teensy2.0
-# atemga32u4	TMK Converter rev.1
-# atemga32u2	TMK Converter rev.2
-MCU ?= atmega32u2
+MCU ?= atmega32u4
 
 # Processor frequency.
 #     This will define a symbol, F_CPU, in all source code files equal to the
@@ -54,14 +51,14 @@ ARCH ?= AVR8
 #     CPU clock adjust registers or the clock division fuses), this will be equal to F_CPU.
 F_USB ?= $(F_CPU)
 
-# Interrupt driven control endpoint task(+60)
+# Interrupt driven control endpoint task
 OPT_DEFS += -DINTERRUPT_CONTROL_ENDPOINT
 
 
 # Boot Section Size in *bytes*
 #   Teensy halfKay   512
 #   Teensy++ halfKay 1024
-#   Atmel DFU loader 4096	for TMK Converter rev.1/rev.2
+#   Atmel DFU loader 4096	(TMK Alt Controller)
 #   LUFA bootloader  4096
 #   USBaspLoader     2048
 OPT_DEFS += -DBOOTLOADER_SIZE=4096
@@ -70,14 +67,19 @@ OPT_DEFS += -DBOOTLOADER_SIZE=4096
 # Build Options
 #   comment out to disable the options.
 #
-#BOOTMAGIC_ENABLE = yes	# Virtual DIP switch configuration(+1000)
-MOUSEKEY_ENABLE = yes	# Mouse keys(+4700)
-EXTRAKEY_ENABLE = yes	# Audio control and System control(+450)
-CONSOLE_ENABLE = yes	# Console for debug(+400)
-COMMAND_ENABLE = yes    # Commands for debug and configuration
-#UNIMAP_ENABLE = yes
-#ACTIONMAP_ENABLE = yes         # Use 16bit actionmap instead of 8bit keymap
-#KEYMAP_SECTION_ENABLE = yes	# fixed address keymap for keymap editor
+#BOOTMAGIC_ENABLE ?= yes	# Virtual DIP switch configuration
+MOUSEKEY_ENABLE ?= yes		# Mouse keys
+EXTRAKEY_ENABLE ?= yes		# Audio control and System control
+CONSOLE_ENABLE ?= yes		# Console for debug
+COMMAND_ENABLE ?= yes    	# Commands for debug and configuration
+NKRO_ENABLE ?= yes		# USB Nkey Rollover
+#ACTIONMAP_ENABLE ?= yes		# Use 16bit actionmap instead of 8bit keymap
+UNIMAP_ENABLE ?= yes		# Universal keymap
+KEYMAP_SECTION_ENABLE ?= yes	# fixed address keymap for keymap editor
+
+#OPT_DEFS += -DNO_ACTION_TAPPING
+#OPT_DEFS += -DNO_ACTION_LAYER
+#OPT_DEFS += -DNO_ACTION_MACRO
 
 
 #
@@ -104,6 +106,5 @@ VPATH += $(TARGET_DIR)
 VPATH += $(TMK_DIR)
 
 include $(TMK_DIR)/protocol/lufa.mk
-include $(TMK_DIR)/protocol.mk
 include $(TMK_DIR)/common.mk
 include $(TMK_DIR)/rules.mk
