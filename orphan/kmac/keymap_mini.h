@@ -1,4 +1,5 @@
-// KMAC Winkeyless
+// KMAC Mini
+#include "kmac_macro.h"
 static const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     /* 0: qwerty */
     [0] = KEYMAP_MINI(\
@@ -23,14 +24,7 @@ static const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
         I, J, LCTL,LGUI,LALT,             TRNS,                     RALT,       LEFT, VOLD, MUTE )
 
 };
-enum macro_id {
-    AE,
-    AA,
-    OE,
-    CAE,
-    CAA,
-    COE
-};
+
 
 #ifdef KEYMAP_SECTION_ENABLE
 const action_t fn_actions[] __attribute__ ((section (".keymap.fn_actions"))) = {
@@ -49,38 +43,6 @@ const action_t fn_actions[] PROGMEM = {
     [8] = ACTION_MACRO(COE)
 };
 
-
-
-const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
-{
-    switch (id) {
-        case AE:
-            return (record->event.pressed ?
-                    MACRO( D(LCTL), D(LSFT),D(U), U(LCTL),U(LSFT), U(U),D(0), U(0),D(0),U(0), D(E), U(E),D(4),U(4),U(ENT),D(ENT), END) :
-                    MACRO_NONE );
-        case AA:
-            return (record->event.pressed ?
-                    MACRO( D(LCTL), D(LSFT),D(U), U(LCTL),U(LSFT), U(U),D(0), U(0),D(0),U(0), D(E), U(E),D(5),U(5),U(ENT),D(ENT), END) :
-                    MACRO_NONE );
-        case OE:
-            return (record->event.pressed ?
-                    MACRO( D(LCTL), D(LSFT),D(U), U(LCTL),U(LSFT), U(U),D(0), U(0),D(0),U(0), D(F), U(F),D(6),U(6), U(ENT),D(ENT),END) :
-                    MACRO_NONE );
-        case CAE:
-            return (record->event.pressed ?
-                    MACRO( D(LCTL), D(LSFT),D(U), U(LCTL),U(LSFT), U(U),D(0), U(0),D(0),U(0), D(C), U(C),D(4),U(4), U(ENT),D(ENT),END) :
-                    MACRO_NONE );
-        case CAA:
-            return (record->event.pressed ?
-                    MACRO( D(LCTL), D(LSFT),D(U), U(LCTL),U(LSFT), U(U),D(0), U(0),D(0),U(0), D(C), U(C),D(5),U(5), U(ENT),D(ENT),END) :
-                    MACRO_NONE );
-        case COE:
-            return (record->event.pressed ?
-                    MACRO( D(LCTL), D(LSFT),D(U), U(LCTL),U(LSFT), U(U),D(0), U(0),D(0),U(0), D(D), U(D),D(6),U(6), U(ENT),D(ENT),END) :
-                    MACRO_NONE );
-    }
-    return MACRO_NONE;
-}
 
 
 
