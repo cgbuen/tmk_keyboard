@@ -15,6 +15,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <avr/eeprom.h>
+#include <avr/wdt.h>
 #include <stdint.h>
 #include "usbdrv.h"
 #include "usbconfig.h"
@@ -24,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "debug.h"
 #include "host_driver.h"
 #include "vusb.h"
+#include "bootloader.h"
 
 
 static uint8_t vusb_keyboard_leds = 0;
@@ -163,6 +166,7 @@ static struct {
     uint16_t        len;
     enum {
         NONE,
+        BOOTLOADER,
         SET_LED
     }               kind;
 } last_req;
@@ -193,6 +197,11 @@ usbRequest_t    *rq = (void *)data;
                 debug("SET_LED: ");
                 last_req.kind = SET_LED;
                 last_req.len = rq->wLength.word;
+#ifdef BOOTLOADER_SIZE
+            } else if(rq->wValue.word == 0x0301) {
+                last_req.kind = BOOTLOADER;
+                last_req.len = rq->wLength.word;
+#endif
             }
             return USB_NO_MSG; // to get data in usbFunctionWrite
         } else {
@@ -218,6 +227,11 @@ uchar usbFunctionWrite(uchar *data, uchar len)
             debug("\n");
             vusb_keyboard_leds = data[0];
             last_req.len = 0;
+            return 1;
+            break;
+        case BOOTLOADER:
+            usbDeviceDisconnect();
+            bootloader_jump();
             return 1;
             break;
         case NONE:
