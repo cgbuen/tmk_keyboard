@@ -28,31 +28,31 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 void backlight_set(uint8_t level)
 {
     // Set as output.
-    DDRB |= (1<<1) | (1<<2) | (1<<3) | (1<<4);
-    DDRD |= (1<<7);
+    DDRB |= (1<<1) | (1<<3) ;
+    //DDRD |= (1<<7);
 
+    
     // F-row
-    if(level & (1<<0))
+    if(level & BACKLIGHT_SWITCH)
     {
-        PORTB |= (1<<1);
+        backlight_switch_enable();
     }
     else
     {
-        PORTB &= ~(1<<1);
-    }
-    // WASD
-    if(level & (1<<1))
-    {
-        PORTB &= ~(1<<4);
-        PORTB &= ~(1<<2);
-        PORTB &= ~(1<<3);
-        PORTD &= ~(1<<7);
-    }
-    else
-    {
-        PORTB |= (1<<4);
-        PORTB |= (1<<2);
-        PORTB |= (1<<3);
-        PORTD |= (1<<7);
+        backlight_switch_disable();
     }
 }
+
+void backlight_switch_enable()
+{
+    PORTB &= ~(1<<1);
+    PORTB |= (1<<3);
+}
+
+void backlight_switch_disable()
+{
+    PORTB |= (1<<1);
+    PORTB &= ~(1<<3);
+}
+
+

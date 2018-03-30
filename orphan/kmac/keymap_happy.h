@@ -1,5 +1,7 @@
 // KMAC Winkeyless
 #include "kmac_macro.h"
+#include "backlight.h"
+
 static const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     /* 0: qwerty */
     [0] = KEYMAP_HAPPY(\
@@ -16,7 +18,7 @@ static const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
         LGUI,NO,LALT,             FN0,                     RALT,NO,RGUI  ),
 
     [2] = KEYMAP_HAPPY(\
-        ESC, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0,   SLSH,EQL,GRV,BSLS, \
+        ESC, FN9,   FN10,   3,   4,   5,   6,   7,   8,   9,   0,   SLSH,EQL,GRV,BSLS, \
         TAB, FN6, FN7,   FN8,   P,   Y,   F,   G,   PGUP,   R,   L, LBRC, RBRC, BSPC, \
         LCTL, A,   O,   E,   U,   I,   D,   HOME,   PGDN,   END,   S, MINS,     ENT,       \
         FN1, SCLN, Q,  J,   K,   X,   B,   M,   W,   V, Z,       RSFT,    FN0, \
@@ -38,7 +40,6 @@ const action_t fn_actions[] PROGMEM = {
     [5] = ACTION_MACRO(OE),
     [6] = ACTION_MACRO(CAE),
     [7] = ACTION_MACRO(CAA),
-    [8] = ACTION_MACRO(COE)
+    [8] = ACTION_MACRO(COE),
+    [9] = ACTION_BACKLIGHT_LEVEL(BACKLIGHT_SWITCH)
 };
-
-
