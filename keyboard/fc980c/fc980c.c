@@ -51,11 +51,9 @@ void matrix_init(void)
 
     KEY_INIT();
 
-    // LEDs on NumLock, CapsLock and ScrollLock(PD7, PB5, PB6)
-    DDRD  |= (1<<7);
-    PORTD |= (1<<7);
-    DDRB  |= (1<<5) | (1<<6);
-    PORTB |= (1<<5) | (1<<6);
+    // LEDs on NumLock, CapsLock and ScrollLock(PB4, PB5, PB6)
+    DDRB  |= (1<<4) | (1<<5) | (1<<6);
+    PORTB |= (1<<4) | (1<<5) | (1<<6);
 
     // initialize matrix state: all keys off
     for (uint8_t i=0; i < MATRIX_ROWS; i++) _matrix0[i] = 0x00;
@@ -133,9 +131,9 @@ matrix_row_t matrix_get_row(uint8_t row)
 void led_set(uint8_t usb_led)
 {
     if (usb_led & (1<<USB_LED_NUM_LOCK)) {
-        PORTD |=  (1<<7);
+        PORTB |=  (1<<4);
     } else {
-        PORTD &= ~(1<<7);
+        PORTB &= ~(1<<4);
     }
     if (usb_led & (1<<USB_LED_CAPS_LOCK)) {
         PORTB |=  (1<<5);
@@ -158,7 +156,7 @@ const uint8_t PROGMEM unimap_trans[MATRIX_ROWS][MATRIX_COLS] = {
     { UNIMAP_LEFT, UNIMAP_RCTL, UNIMAP_RALT, UNIMAP_NO  , UNIMAP_DOWN, UNIMAP_PDOT, UNIMAP_RGHT, UNIMAP_P0  ,
       UNIMAP_X   , UNIMAP_LGUI, UNIMAP_GRV , UNIMAP_V   , UNIMAP_NO  , UNIMAP_ESC , UNIMAP_M   , UNIMAP_SPC   },
     { UNIMAP_RGUI, UNIMAP_DOT , UNIMAP_NO  , UNIMAP_NO  , UNIMAP_P1  , UNIMAP_PENT, UNIMAP_P2  , UNIMAP_P3  ,
-      UNIMAP_Z   , UNIMAP_LALT, UNIMAP_RCTL, UNIMAP_C   , UNIMAP_K   , UNIMAP_NO  , UNIMAP_N   , UNIMAP_B     },
+      UNIMAP_Z   , UNIMAP_LALT, UNIMAP_LCTL, UNIMAP_C   , UNIMAP_K   , UNIMAP_NO  , UNIMAP_N   , UNIMAP_B     },
     { UNIMAP_QUOT, UNIMAP_SLSH, UNIMAP_COMM, UNIMAP_NO  , UNIMAP_P4  , UNIMAP_PPLS, UNIMAP_P5  , UNIMAP_P6  ,
       UNIMAP_D   , UNIMAP_A   , UNIMAP_LSFT, UNIMAP_F   , UNIMAP_J   , UNIMAP_F1  , UNIMAP_H   , UNIMAP_G     },
     { UNIMAP_RSFT, UNIMAP_SCLN, UNIMAP_L   , UNIMAP_RBRC, UNIMAP_UP  , UNIMAP_NO  , UNIMAP_NO  , UNIMAP_NO  ,
