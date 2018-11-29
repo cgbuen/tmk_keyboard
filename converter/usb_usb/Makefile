@@ -109,8 +109,7 @@ OPT_DEFS += -DBOOTLOADER_SIZE=4096
 #OPT_DEFS += -DNO_ACTION_MACRO
 KEYMAP = henz
 
-SRC ?=  usb_usb.cpp \
-       main.cpp
+SRC ?=  usb_usb.cpp
 
 #
 # Keymap file
