@@ -41,9 +41,9 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] PROGMEM = {
     KEYMAP(
     ESC, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12,           PSCR,SLCK,BRK,
     GRV, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, DEL,      INS, HOME,PGUP,    NLCK,PSLS,PAST,PMNS,
-    CAPS,FN6,   FN7,   FN8,  NO,  NO,  NO,  NO,  PSCR,SLCK,PAUS, UP,  NO, BSLS,     DEL, END, PGDN,    P7,  P8,  P9,
-    LCTL,VOLD,VOLU,MUTE,NO,  NO,  PAST,PSLS,HOME,PGUP,LEFT,RGHT,     ENT,                         P4,  P5,  P6,  PPLS,
-    FN1,NO,  NO,  NO,  NO,  NO,  PPLS,PMNS,END, PGDN,DOWN,          RSFT,          UP,           P1,  P2,  P3,
+    CAPS,FN6,   NO,   PGUP,  NO,  NO,  NO,  NO,  UP,SLCK,PAUS, UP,  NO, BSLS,     DEL, END, PGDN,    P7,  P8,  P9,
+    LCTL,VOLD,HOME,PGDN,END,  NO,  PAST,LEFT,DOWN,RGHT,LEFT,RGHT,     ENT,                         P4,  P5,  P6,  PPLS,
+    FN1,FN7,  NO,  NO,  NO,  NO,  PPLS,PMNS,END, PGDN,DOWN,          RSFT,          UP,           P1,  P2,  P3,
     LCTL,LGUI,LALT,          TRNS,                     RALT,RGUI,APP, TRNS,     LEFT,DOWN,RGHT,    P0,       PDOT,PENT
     ),
 
