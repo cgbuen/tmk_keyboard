@@ -1,110 +1,26 @@
-KMAC keyboard firmware
-======================
-Korean custom keyboard designed by Byungho Kim and KBDMania community.
+# KMAC
 
-*Note that this is not the official firmware*
+Korean custom keyboards designed by Byungho Kim and the KBDMania community.
 
-Supported models
-----------------
-TKL models and happy.
+Note: this is not the official firmware.
 
+## Support
+KMAC TKL 6.25u, KMAC TKL 7u, and KMAC Happy.
 
-Build
------
-Move to this directory then just run `make` like:
+## Instructions for macOS
 
-    $ make -f Makefile.[pjrc|lufa] [winkey|winkeyless|happy]
-
-Use `Makefile.pjrc` if you want to use PJRC stack or use `Makefile.lufa` for LUFA stack.
-
-
-Bootloader
----------
-The PCB is hardwired to run the bootloader if the key at the `Caps Lock` position is held down when connecting the keyboard.
-
-It is still possible to use Boot Magic and Command to access the bootloader though.
-
-
-Keymap
-------
-There are 2 different types of PCB.
-They each have their own keymap file.
-
-To customize a keymap:
-    1. Edit the file that corresponds to your PCB.
-    2. Specify your layout when building.
-
-### 1. Winkey
-This is the default keymap.
-
-See [keymap_winkey.h](keymap_winkey.h) for detail.
-
-#### 1.0. Winkey Default Layer
-     ,---.   ,---------------. ,---------------. ,---------------. ,-----------.
-     |Esc|   |F1 |F2 |F3 |F4 | |F5 |F6 |F7 |F8 | |F9 |F10|F11|F12| |PrS|ScL|Pau|
-     `---'   `---------------' `---------------' `---------------' `-----------'
-     ,-----------------------------------------------------------. ,-----------.
-     |~  |  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|Backsp | |Ins|Hom|PgU|
-     |-----------------------------------------------------------| |-----------|
-     |Tab  |  Q|  W|  E|  R|  T|  Y|  U|  I|  O|  P|  [|  ]|    \| |Del|End|PgD|
-     |-----------------------------------------------------------| '-----------'
-     |Fn0   |  A|  S|  D|  F|  G|  H|  J|  K|  L|  ;|  '|Return  |
-     |-----------------------------------------------------------|     ,---.
-     |Shift   |  Z|  X|  C|  V|  B|  N|  M|  ,|  .|  /|Shift     |     |Up |
-     |-----------------------------------------------------------| ,-----------.
-     |Ctl|Gui|Alt|             Space             |Alt|Gui|App|Ctl| |Lef|Dow|Rig|
-     `-----------------------------------------------------------' `-----------'
-
-#### 1.1. Winkey Media Layer
-     ,---.   ,---------------. ,---------------. ,---------------. ,-----------.
-     |Led|   |   |   |   |   | |   |   |   |   | |   |   |   |   | |   |   |Slp|
-     `---'   `---------------' `---------------' `---------------' `-----------'
-     ,-----------------------------------------------------------. ,-----------.
-     |   |   |   |   |   |   |   |   |   |   |Mut|V- |V+ |       | |   |   |   |
-     |-----------------------------------------------------------| |-----------|
-     |     |   |   |   |   |   |   |   |   |Stp|Ply|Prv|Nxt|Media| |   |   |   |
-     |-----------------------------------------------------------| '-----------'
-     |      |   |   |   |   |   |   |   |   |   |   |   |        |
-     |-----------------------------------------------------------|     ,---.
-     |        |   |   |Clc|   |   |   |   |   |   |   |Caps      |     |   |
-     |-----------------------------------------------------------| ,-----------.
-     |   |   |   |                               |   |   |   |   | |   |   |   |
-     `-----------------------------------------------------------' `-----------'
-
-
-### 2. Winkeyless
-Layout with 1.5 unit modifiers.
-
-See [keymap_winkeyless.h](keymap_winkeyless.h) for detail.
-
-#### 2.0. Winkeyless Default Layer
-     ,---.   ,---------------. ,---------------. ,---------------. ,-----------.
-     |Esc|   |F1 |F2 |F3 |F4 | |F5 |F6 |F7 |F8 | |F9 |F10|F11|F12| |PrS|ScL|Pau|
-     `---'   `---------------' `---------------' `---------------' `-----------'
-     ,-----------------------------------------------------------. ,-----------.
-     |~  |  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|Backsp | |Ins|Hom|PgU|
-     |-----------------------------------------------------------| |-----------|
-     |Tab  |  Q|  W|  E|  R|  T|  Y|  U|  I|  O|  P|  [|  ]|    \| |Del|End|PgD|
-     |-----------------------------------------------------------| '-----------'
-     |Fn0   |  A|  S|  D|  F|  G|  H|  J|  K|  L|  ;|  '|Return  |
-     |-----------------------------------------------------------|     ,---.
-     |Shift   |  Z|  X|  C|  V|  B|  N|  M|  ,|  .|  /|Shift     |     |Up |
-     |-----------------------------------------------------------| ,-----------.
-     |Ctl |Gui|Alt |             Space             |Alt |Gui|Ctl | |Lef|Dow|Rig|
-     `-----------------------------------------------------------' `-----------'
-
-#### 2.1. Winkeyless Media Layer
-     ,---.   ,---------------. ,---------------. ,---------------. ,-----------.
-     |Led|   |   |   |   |   | |   |   |   |   | |   |   |   |   | |   |   |Slp|
-     `---'   `---------------' `---------------' `---------------' `-----------'
-     ,-----------------------------------------------------------. ,-----------.
-     |   |   |   |   |   |   |   |   |   |   |Mut|V- |V+ |       | |   |   |   |
-     |-----------------------------------------------------------| |-----------|
-     |     |   |   |   |   |   |   |   |   |Stp|Ply|Prv|Nxt|Media| |   |   |   |
-     |-----------------------------------------------------------| '-----------'
-     |      |   |   |   |   |   |   |   |   |   |   |   |        |
-     |-----------------------------------------------------------|     ,---.
-     |        |   |   |Clc|   |   |   |   |   |   |   |Caps      |     |   |
-     |-----------------------------------------------------------| ,-----------.
-     |    |   |    |                               |    |   |    | |   |   |   |
-     `-----------------------------------------------------------' `-----------'
+1. Modify `keymap_[winkey|winkeyless|happy].h` to your liking.
+2. Run:
+    ```
+    $ brew tap osx-cross/avr && brew install avr-gcc
+    $ brew install dfu-programmer
+    $ cd [.. wherever tmk_keyboard is ..]/tmk_keyboard/keyboard/kmac
+    $ make -f Makefile.lufa clean
+    $ make -f Makefile.lufa [winkey|winkeyless|happy]
+    ```
+3. Connect your KMAC via USB and hold the key at the typical `Caps Lock`
+   position to run the bootloader.
+4. While still `cd`'d into the same directory, run [presumably with a different keyboard plugged in]:
+    ```
+    $ dfu-programmer atmega32u4 erase --force && dfu-programmer atmega32u4 flash kmac_lufa.hex && dfu-programmer atmega32u4 reset
+    ```
